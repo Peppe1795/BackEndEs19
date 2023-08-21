@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.github.javafaker.Faker;
@@ -28,6 +29,9 @@ public class Runner implements CommandLineRunner {
 	@Autowired
 	DispositiviAssegnatiService dispositiviAssegnatiService;
 
+	@Autowired
+	PasswordEncoder bcrypt;
+
 	@Override
 	public void run(String... args) throws Exception {
 		Faker faker = new Faker(new Locale("it"));
@@ -37,9 +41,9 @@ public class Runner implements CommandLineRunner {
 			String cognome = faker.name().lastName();
 			String email = faker.internet().emailAddress();
 			String username = (nome + cognome).toLowerCase().trim();
-			String password = "3456";
+			String password = bcrypt.encode("3456");
 			UtenteRequestPayload utente = new UtenteRequestPayload(email, cognome, nome, password, username);
-			// utenteSrv.create(utente);
+			utenteSrv.create(utente);
 
 		}
 

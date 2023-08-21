@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import Giuseppe.gestione_dispositivi.dispositivi.Dispositivi;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -34,10 +35,12 @@ public class Utente implements UserDetails {
 	@GeneratedValue
 	private UUID id;
 	@Column(nullable = false)
+	@Convert(converter = UtenteConverter.class)
 	private String cognome;
 	@Column(nullable = false, unique = true)
 	private String email;
 	@Column(nullable = false)
+	@Convert(converter = UtenteConverter.class)
 	private String nome;
 
 	private String password;
